@@ -383,9 +383,13 @@
                 return;
             }
 
+            // Get email from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const userEmail = urlParams.get('email') || "user@example.com";
+
             const handler = PaystackPop.setup({
                 key: paystackPublicKey,
-                email: "user@example.com", // In a real app, get this from the user's session or previous form
+                email: userEmail,
                 amount: 12000 * 100, // Amount in kobo (12,000 NGN)
                 currency: "NGN",
                 ref: '' + Math.floor((Math.random() * 1000000000) + 1),
