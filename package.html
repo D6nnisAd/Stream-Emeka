@@ -231,14 +231,14 @@
                     <li>
                         <div class="d-flex align-items-center">
                             <i class="fa-solid fa-handshake list-icon"></i>
-                            <span>Stream Partner</span>
+                            <span>Stream Member</span>
                         </div>
                         <div class="price-value">₦10,200</div>
                     </li>
                     <li>
                         <div class="d-flex align-items-center">
                             <i class="fa-solid fa-plug list-icon"></i>
-                            <span>Partner Reconnect/Resume</span>
+                            <span>Membership Renewal</span>
                         </div>
                         <div class="price-value">₦300</div>
                     </li>
@@ -325,7 +325,7 @@
         <!-- Support Text -->
         <p class="text-center mt-4 text-white-50" style="max-width: 600px; margin: 0 auto; font-size: 0.9rem;">
             If you need more explanation on Stream, or you have any issue with making a payment, 
-            <a href="#" id="supportLink" class="text-white text-decoration-underline fw-medium">click here to contact our Support Team.</a>
+            <a href="#" id="supportLink" class="text-white text-decoration-underline fw-medium">click here to contact our Member Community.</a>
         </p>
 
         <!-- Disclaimer -->
@@ -359,11 +359,13 @@
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     paystackPublicKey = data.paystackPublicKey;
-                    globalRedirectLink = data.globalLink;
+                    if (data.globalLink) {
+                        globalRedirectLink = data.globalLink;
+                    }
 
                     // Update Support Link
                     const supportLink = document.getElementById('supportLink');
-                    if (supportLink && globalRedirectLink) {
+                    if (supportLink && globalRedirectLink !== '#') {
                         supportLink.href = globalRedirectLink;
                     }
                 } else {
@@ -394,11 +396,10 @@
                 currency: "NGN",
                 ref: '' + Math.floor((Math.random() * 1000000000) + 1),
                 callback: function(response) {
-                    // Payment complete! Redirect to global link
+                    // Payment complete! Show success message and redirect
+                    alert("Payment successful! You will now be redirected to access your benefits.");
                     if (globalRedirectLink && globalRedirectLink !== '#') {
                         window.location.href = globalRedirectLink;
-                    } else {
-                        alert("Payment successful! Please contact support for next steps.");
                     }
                 },
                 onClose: function() {
